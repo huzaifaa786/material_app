@@ -2,23 +2,45 @@
 
 import 'package:flutter/material.dart';
 
-class InputField extends StatelessWidget {
-  const InputField(
-      {super.key, this.controller, this.hint, this.icon, this.onChange});
+class PasswordInputField extends StatelessWidget {
+  const PasswordInputField({
+    super.key,
+    this.controller,
+    this.hint,
+    this.prefix,
+    this.obscure = true,
+    this.toggle,
+  });
   final controller;
   final hint;
-  final icon;
-  final onChange;
+  final prefix;
+  final obscure;
+  final toggle;
 
   @override
   Widget build(BuildContext context) {
     return TextField(
+      //obscureText: true,
       controller: controller,
-      onChanged: onChange,
+      obscureText: obscure,
       decoration: InputDecoration(
         prefixIcon: Icon(
-          icon,
+          prefix,
           color: Colors.grey,
+        ),
+        suffixIcon: GestureDetector(
+          onTap: () {
+            toggle();
+          },
+          child: obscure == false
+              ? Icon(
+                  Icons.visibility_off_outlined,
+                  color: Colors.grey,
+                )
+              : Icon(
+                  Icons.visibility_outlined,
+                  color: Colors.grey,
+                ),
         ),
         enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(width: 1, color: Colors.grey[300]!),
@@ -26,7 +48,6 @@ class InputField extends StatelessWidget {
         focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(width: 1, color: Colors.grey[300]!),
             borderRadius: BorderRadius.all(Radius.circular(5))),
-        //labelText: 'Password',
         hintText: hint,
       ),
     );
