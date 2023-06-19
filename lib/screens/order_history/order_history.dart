@@ -49,7 +49,7 @@
 //                         CircleAvatar(
 //                           radius: 30,
 //                           backgroundImage:
-//                               AssetImage('assets/images/home.jpeg'),
+//                               AssetImage('assets/images/home.png'),
 //                         ),
 //                       ],
 //                     ),
