@@ -127,7 +127,7 @@ class _MyWidgetState extends State<HomeScreen> {
                   Padding(
                     padding: EdgeInsets.only(bottom: 25),
                     child: Text(
-                      'Choose Vendor: ',
+                      'Choose Category: ',
                       style:
                           TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
                     ),
