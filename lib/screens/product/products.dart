@@ -3,14 +3,16 @@
 import 'package:flutter/material.dart';
 import 'package:material/api/material.dart';
 import 'package:material/model/product.dart';
+import 'package:material/model/vendor.dart';
 import 'package:material/screens/order/order.dart';
 import 'package:material/static/product_card.dart';
 import 'package:material/static/search_field.dart';
 import 'package:material/values/colors.dart';
 
 class ProductScreen extends StatefulWidget {
-  const ProductScreen({super.key, required this.id});
+  const ProductScreen({super.key, required this.id, this.vendor});
   final int? id;
+  final VendorModel? vendor;
 
   @override
   State<ProductScreen> createState() => _MyWidgetState();
@@ -62,7 +64,7 @@ class _MyWidgetState extends State<ProductScreen> {
         title: Text('Choose product'),
         backgroundColor: mainColor,
         centerTitle: true,
-        leading: GestureDetector(
+        leading: InkWell(
             onTap: () {
               Navigator.pop(context);
             },
@@ -93,7 +95,10 @@ class _MyWidgetState extends State<ProductScreen> {
                                             builder: (context) =>
                                                 OrderCheckOutScreen(
                                                   product: sproducts[index],
+                                                  vendor: widget.vendor!,
                                                 )));
+                      // await FlutterPhoneDirectCaller.callNumber(widget.vendor.phone!);
+
                                   },
                                 );
                               },

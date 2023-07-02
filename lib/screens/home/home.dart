@@ -5,6 +5,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:material/api/auth.dart';
 import 'package:material/api/material.dart';
 import 'package:material/helpers/loading.dart';
+import 'package:material/model/vendor.dart';
 import 'package:material/screens/auth/login.dart';
 import 'package:material/screens/product/products.dart';
 import 'package:material/static/material_card.dart';
@@ -18,7 +19,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _MyWidgetState extends State<HomeScreen> {
-  List<dynamic> materials = [];
+  List<VendorModel> materials = [];
   getmaterials() async {
     var mmaterials = await MaterialApi.getMaterial();
     setState(() {
@@ -56,7 +57,7 @@ class _MyWidgetState extends State<HomeScreen> {
                   Padding(
                     padding: EdgeInsets.only(bottom: 25),
                     child: Text(
-                      'Choose Material Type: ',
+                      'Choose Vendor: ',
                       style:
                           TextStyle(fontWeight: FontWeight.w700, fontSize: 20),
                     ),
@@ -69,14 +70,15 @@ class _MyWidgetState extends State<HomeScreen> {
                               shrinkWrap: true,
                               itemCount: materials.length,
                               itemBuilder: (BuildContext context, int index) {
-                                return MaterialCard(
+                                return VendorCard(
                                   title: materials[index].name,
-                                  image: materials[index].image,
+                                  address: materials[index].address,
                                   ontap: () {
                                     Navigator.of(context)
                                         .push(MaterialPageRoute(
                                             builder: (context) => ProductScreen(
                                                   id: materials[index].id,
+                                                  vendor: materials[index],
                                                 )));
                                   },
                                 );

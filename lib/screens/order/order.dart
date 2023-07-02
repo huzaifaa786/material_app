@@ -1,27 +1,74 @@
 // ignore_for_file: prefer_const_constructors, prefer_interpolation_to_compose_strings, prefer_adjacent_string_concatenation, prefer_const_literals_to_create_immutables, sort_child_properties_last
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
+import 'package:material/helpers/cart.dart';
+import 'package:material/model/cart.dart';
 import 'package:material/model/product.dart';
+import 'package:material/model/vendor.dart';
 import 'package:material/static/headingText.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:carousel_indicator/carousel_indicator.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:material/values/colors.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class OrderCheckOutScreen extends StatefulWidget {
-  const OrderCheckOutScreen({super.key, required this.product});
+  const OrderCheckOutScreen(
+      {super.key, required this.product, required this.vendor});
   final Product product;
+  final VendorModel vendor;
 
   @override
   State<OrderCheckOutScreen> createState() => _OrderCheckOutScreenState();
 }
 
 class _OrderCheckOutScreenState extends State<OrderCheckOutScreen> {
+  // CartItem data = CartItem();
+
   int _current = 0;
+  SharedPreferences? prefs;
+  List<Product> productList = [];
+  Future<void> _initializeSharedPreferences() async {
+    prefs = await SharedPreferences.getInstance();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _initializeSharedPreferences();
+    // data.id = widget.product.id;
+    // data.name = widget.product.name;
+    // data.
+  }
+
+  // abc() {
+  //   productList.add(widget.product);
+  //   List<Map<String, dynamic>> jsonList = productList.map((product) {
+  //     return {
+  //       'id': product.id,
+  //       'vendor_id': product.vendor_id,
+  //       'name': product.name,
+  //       'price': product.price,
+  //       'unit': product.unit,
+  //       'vendorName': product.vendorName,
+  //       'image1': product.image1,
+  //       'image2': product.image2,
+  //       'image3': product.image3,
+  //       'description': product.description,
+  //       'phone': product.phone,
+  //     };
+  //   }).toList();
+
+  //   String jsonString = jsonEncode(jsonList);
+  //   print(jsonString);
+  // }
 
   @override
   Widget build(BuildContext context) {
+    final Cart cart = Cart();
     List<String> imgList = [
       widget.product.image1!,
       widget.product.image2!,
@@ -114,7 +161,7 @@ class _OrderCheckOutScreenState extends State<OrderCheckOutScreen> {
                           Padding(
                             padding: const EdgeInsets.only(left: 10.0),
                             child: Text(
-                              widget.product.vendorName!,
+                              widget.vendor.name!,
                               style: TextStyle(
                                   fontFamily: 'Poppins',
                                   fontWeight: FontWeight.w400,
@@ -186,7 +233,7 @@ class _OrderCheckOutScreenState extends State<OrderCheckOutScreen> {
                   width: MediaQuery.of(context).size.width * 0.9,
                   child: ElevatedButton(
                     child: Text(
-                      'Contact Now',
+                      'Add To Cart',
                       style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     style: ElevatedButton.styleFrom(
@@ -200,7 +247,17 @@ class _OrderCheckOutScreenState extends State<OrderCheckOutScreen> {
                           fontWeight: FontWeight.bold),
                     ),
                     onPressed: () async {
-                      await FlutterPhoneDirectCaller.callNumber(widget.product.phone!);
+                      var item = CartItem(
+                          id: widget.product.id,
+                          name: widget.product.name,
+                          price: widget.product.price,
+                          phone: widget.product.phone,
+                          vendor_id: widget.product
+                              .vendor_id); // Replace with your desired item properties
+                      await cart.addItem(item);
+                      List<CartItem> cartItems = await cart.getItems();
+                      print(cartItems);
+                      // _addToCart();
                     },
                   ),
                 ),

@@ -1,5 +1,6 @@
 class Product {
   int? id;
+  int? vendor_id;
   String? name;
   String? price;
   String? unit;
@@ -16,10 +17,9 @@ class Product {
     price = product['price'];
     unit = product['unit'];
     image1 = product['image1'] ?? '';
-    image2 = product['image1'] ?? '';
-    image3 = product['image1'] ?? '';
+    image2 = product['image2'] ?? '';
+    image3 = product['image3'] ?? '';
     description = product['description'];
-    vendorName = product['vendor']['name'];
-    phone = product['vendor']['phone'];
+    vendor_id = product['vendor_id'];
   }
 }
