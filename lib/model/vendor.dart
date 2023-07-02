@@ -6,6 +6,8 @@ class VendorModel {
   String? email;
   String? address;
   String? phone;
+  String? lat;
+  String? lng;
 
   VendorModel(vendor) {
     id = vendor['id'];
@@ -13,6 +15,8 @@ class VendorModel {
     email = vendor['email'] ?? '';
     address = vendor['address'] ?? '';
     phone = vendor['phone'] ?? '';
+    lat = vendor['lat'] ?? '';
+    lng = vendor['lng'] ?? '';
   }
 
   Map<String, dynamic> toJson() => {
@@ -20,6 +24,8 @@ class VendorModel {
         'name': name,
         'email': email,
         'address': address,
-        'phone': phone
+        'phone': phone,
+        'lat': lat,
+        'lng': lng,
       };
 }
