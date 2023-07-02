@@ -5,6 +5,7 @@ import 'package:material/api/material.dart';
 import 'package:material/helpers/loading.dart';
 import 'package:material/model/vendor.dart';
 import 'package:material/screens/auth/login.dart';
+import 'package:material/screens/order_history/order_history.dart';
 import 'package:material/screens/product/products.dart';
 import 'package:material/static/material_card.dart';
 import 'package:material/values/colors.dart';
@@ -39,6 +40,49 @@ class _MyWidgetState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: Drawer(
+        child: ListTileTheme(
+            child: ListView(
+          children: [
+            ListTile(
+                leading: Icon(
+                  Icons.trolley,
+                  color: mainColor,
+                ),
+                title: Text(
+                  "Orders",
+                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                       
+                        color: ListTileTheme.of(context).textColor,
+                      ),
+                ),
+           
+                onTap: () {
+                  Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => OrderHistoryScreen()));
+                 
+                },
+              ),
+            ListTile(
+                leading: Icon(
+                  Icons.map,
+                  color: mainColor,
+                ),
+                title: Text(
+                  "Vendors Map",
+                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                       
+                        color: ListTileTheme.of(context).textColor,
+                      ),
+                ),
+           
+                onTap: () {
+                 
+                },
+              ),
+          ],
+        )),
+      ),
       appBar: AppBar(
         title: Text('Building Material'),
         backgroundColor: mainColor,

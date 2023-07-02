@@ -168,18 +168,7 @@ class _MyWidgetState extends State<ProductScreen> {
                 ],
               ),
             ),
-            Positioned(
-              bottom: 30,
-              child: Container(
-                padding: EdgeInsets.only(right: 15, left: 15),
-                width: MediaQuery.of(context).size.width,
-                child: MSearchBar(
-                  onChange: searchOrders,
-                  imageIcon: 'assets/images/search.png',
-                  hint: 'search',
-                ),
-              ),
-            )
+  
           ],
         ),
       ),

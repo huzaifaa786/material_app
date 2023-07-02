@@ -7,6 +7,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:material/api/api.dart';
 import 'package:material/helpers/loading.dart';
 import 'package:material/model/cart.dart';
+import 'package:material/model/order.dart';
 import 'package:material/model/product.dart';
 import 'package:material/model/vendor.dart';
 import 'package:material/values/url.dart';
@@ -54,5 +55,23 @@ class OrderApi {
         textColor: Colors.white,
         fontSize: 16.0);
     return response['order'];
+  }
+
+  static getOrders() async {
+    LoadingHelper.show();
+    var url = BASE_URL + 'order/history';
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var api_token = await prefs.getString('api_token');
+
+    var data = {
+      'api_token': api_token,
+    };
+    var response = await Api.execute(url: url, data: data);
+    List<Order> orders = <Order>[];
+    for (var order in response['orders']) {
+      orders.add(Order(order));
+    }
+    LoadingHelper.dismiss();
+    return orders;
   }
 }

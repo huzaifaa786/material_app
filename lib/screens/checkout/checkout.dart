@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:material/api/order.dart';
+import 'package:material/screens/home/home.dart';
 import 'package:material/static/inputfield.dart';
 import 'package:material/values/colors.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -18,7 +19,12 @@ class _CheckOutScreenState extends State<CheckOutScreen> {
 
   placeOrder() async {
     if (name.text != '' && phone.text != '' && address.text != '') {
-      await OrderApi.placeOrder(name.text, phone.text, address.text);
+    var order =  await OrderApi.placeOrder(name.text, phone.text, address.text);
+
+    if(order != null){
+      Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => HomeScreen()));
+    }
     }else{
       Fluttertoast.showToast(
         msg: "Please fill out all fields",
