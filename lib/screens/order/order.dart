@@ -1,13 +1,13 @@
 // ignore_for_file: prefer_const_constructors, prefer_interpolation_to_compose_strings, prefer_adjacent_string_concatenation, prefer_const_literals_to_create_immutables, sort_child_properties_last
 
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 import 'package:material/helpers/cart.dart';
 import 'package:material/model/cart.dart';
 import 'package:material/model/product.dart';
 import 'package:material/model/vendor.dart';
+import 'package:material/screens/product/products.dart';
 import 'package:material/static/headingText.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:carousel_indicator/carousel_indicator.dart';
@@ -31,6 +31,7 @@ class _OrderCheckOutScreenState extends State<OrderCheckOutScreen> {
   int _current = 0;
   SharedPreferences? prefs;
   List<Product> productList = [];
+
   Future<void> _initializeSharedPreferences() async {
     prefs = await SharedPreferences.getInstance();
   }
@@ -39,32 +40,7 @@ class _OrderCheckOutScreenState extends State<OrderCheckOutScreen> {
   void initState() {
     super.initState();
     _initializeSharedPreferences();
-    // data.id = widget.product.id;
-    // data.name = widget.product.name;
-    // data.
   }
-
-  // abc() {
-  //   productList.add(widget.product);
-  //   List<Map<String, dynamic>> jsonList = productList.map((product) {
-  //     return {
-  //       'id': product.id,
-  //       'vendor_id': product.vendor_id,
-  //       'name': product.name,
-  //       'price': product.price,
-  //       'unit': product.unit,
-  //       'vendorName': product.vendorName,
-  //       'image1': product.image1,
-  //       'image2': product.image2,
-  //       'image3': product.image3,
-  //       'description': product.description,
-  //       'phone': product.phone,
-  //     };
-  //   }).toList();
-
-  //   String jsonString = jsonEncode(jsonList);
-  //   print(jsonString);
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -125,7 +101,8 @@ class _OrderCheckOutScreenState extends State<OrderCheckOutScreen> {
                               left: 10,
                               child: InkWell(
                                 onTap: () {
-                                  Navigator.pop(context);
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) => ProductScreen(id: widget.vendor.id, vendor: widget.vendor,)));
                                 },
                                 child: Container(
                                   padding: EdgeInsets.all(8),
@@ -252,12 +229,12 @@ class _OrderCheckOutScreenState extends State<OrderCheckOutScreen> {
                           name: widget.product.name,
                           price: widget.product.price,
                           phone: widget.product.phone,
-                          vendor_id: widget.product
-                              .vendor_id); // Replace with your desired item properties
+                          vendor_id: widget.product.vendor_id,
+                          image1: widget.product
+                              .image1); // Replace with your desired item properties
                       await cart.addItem(item);
-                      List<CartItem> cartItems = await cart.getItems();
-                      print(cartItems);
-                      // _addToCart();
+
+                    
                     },
                   ),
                 ),

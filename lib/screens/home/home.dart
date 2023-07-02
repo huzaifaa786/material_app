@@ -1,5 +1,3 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sort_child_properties_last, use_build_context_synchronously
-
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:material/api/auth.dart';
@@ -10,6 +8,7 @@ import 'package:material/screens/auth/login.dart';
 import 'package:material/screens/product/products.dart';
 import 'package:material/static/material_card.dart';
 import 'package:material/values/colors.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -21,6 +20,8 @@ class HomeScreen extends StatefulWidget {
 class _MyWidgetState extends State<HomeScreen> {
   List<VendorModel> materials = [];
   getmaterials() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove('carts');
     var mmaterials = await MaterialApi.getMaterial();
     setState(() {
       materials = mmaterials;

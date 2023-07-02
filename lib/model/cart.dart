@@ -16,5 +16,15 @@ class CartItem {
       required this.name,
       required this.price,
       required this.vendor_id,
-      required this.phone});
+      required this.phone,
+      this.image1,
+      });
+
+  Map toJson() => {
+        'id': id,
+        'name': name,
+        'price': price,
+        'vendor_id': vendor_id,
+        'phone': phone,
+      };
 }

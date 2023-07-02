@@ -1,13 +1,17 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:material/api/material.dart';
 import 'package:material/model/product.dart';
 import 'package:material/model/vendor.dart';
+import 'package:material/screens/cart/cart.dart';
 import 'package:material/screens/order/order.dart';
 import 'package:material/static/product_card.dart';
 import 'package:material/static/search_field.dart';
 import 'package:material/values/colors.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProductScreen extends StatefulWidget {
   const ProductScreen({super.key, required this.id, this.vendor});
@@ -21,6 +25,7 @@ class ProductScreen extends StatefulWidget {
 class _MyWidgetState extends State<ProductScreen> {
   List<Product> products = [];
   List<Product> sproducts = [];
+  String CartQty = "0";
 
   void searchOrders(String query) {
     setState(() {
@@ -49,12 +54,24 @@ class _MyWidgetState extends State<ProductScreen> {
     });
   }
 
+  getCartItems() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var items = await prefs.getString('carts');
+    if (items != null) {
+      List<dynamic> carts = jsonDecode(items);
+      if (carts.length > 0) {
+        CartQty = carts.length.toString();
+      }
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       getproducts();
     });
+    getCartItems();
   }
 
   @override
@@ -64,6 +81,44 @@ class _MyWidgetState extends State<ProductScreen> {
         title: Text('Choose product'),
         backgroundColor: mainColor,
         centerTitle: true,
+        actions: <Widget>[
+          InkWell(
+            onTap: () {
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (context) => CartScreen()));
+            },
+            child: Stack(
+              children: <Widget>[
+                new IconButton(
+                  icon: new Icon(
+                    Icons.trolley,
+                    color: Colors.white,
+                  ),
+                  onPressed: null,
+                ),
+                new Positioned(
+                    child: new Stack(
+                  children: <Widget>[
+                    new Icon(Icons.brightness_1,
+                        size: 20.0, color: Colors.green[800]),
+                    new Positioned(
+                        top: 4.0,
+                        right: 6.0,
+                        child: new Center(
+                          child: new Text(
+                            CartQty,
+                            style: new TextStyle(
+                                color: Colors.white,
+                                fontSize: 11.0,
+                                fontWeight: FontWeight.w500),
+                          ),
+                        )),
+                  ],
+                )),
+              ],
+            ),
+          ),
+        ],
         leading: InkWell(
             onTap: () {
               Navigator.pop(context);
@@ -97,8 +152,6 @@ class _MyWidgetState extends State<ProductScreen> {
                                                   product: sproducts[index],
                                                   vendor: widget.vendor!,
                                                 )));
-                      // await FlutterPhoneDirectCaller.callNumber(widget.vendor.phone!);
-
                                   },
                                 );
                               },
