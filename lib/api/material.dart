@@ -1,7 +1,9 @@
 // ignore_for_file: prefer_interpolation_to_compose_strings, avoid_print
 
+import 'package:flutter/foundation.dart';
 import 'package:material/api/api.dart';
 import 'package:material/helpers/loading.dart';
+import 'package:material/model/category.dart';
 import 'package:material/model/product.dart';
 import 'package:material/model/vendor.dart';
 import 'package:material/values/url.dart';
@@ -24,6 +26,24 @@ class MaterialApi {
     }
     LoadingHelper.dismiss();
     return materials;
+  }
+  
+    static getCategory() async {
+    LoadingHelper.show();
+    var url = BASE_URL + 'all/category';
+    final pref = await SharedPreferences.getInstance();
+    var api_token = pref.getString('api_token');
+    print(api_token);
+    var data = {'api_token': api_token};
+    var response = await Api.execute(url: url, data: data);
+    print(response);
+
+    List<MCategory> categories = <MCategory>[];
+    for (var category in response['category']) {
+      categories.add(MCategory(category));
+    }
+    LoadingHelper.dismiss();
+    return categories;
   }
 
   static getProduct(id) async {

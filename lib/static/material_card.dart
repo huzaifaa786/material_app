@@ -1,14 +1,26 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, prefer_typing_uninitialized_variables
-
 import 'package:flutter/material.dart';
 
 class VendorCard extends StatelessWidget {
-  const VendorCard(
-      {super.key, this.image, this.title, this.ontap, this.address});
+  const VendorCard({
+    Key? key,
+    this.image,
+    this.title,
+    this.ontap,
+    this.address,
+  }) : super(key: key);
+
   final image;
   final title;
   final ontap;
   final address;
+
+  String truncateText(String text, int maxLength) {
+    if (text.length <= maxLength) {
+      return text;
+    } else {
+      return text.substring(0, maxLength) + "...";
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,26 +45,34 @@ class VendorCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        title,
+                        truncateText(
+                          title,
+                          25, // Set the maximum length for the title
+                        ),
                         style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 18,
-                            color: Colors.black),
+                          fontWeight: FontWeight.w400,
+                          fontSize: 18,
+                          color: Colors.black,
+                        ),
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 4.0),
                         child: Text(
-                          address,
+                          truncateText(
+                            address,
+                            34, // Set the maximum length for the address
+                          ),
                           style: TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 16,
-                              color: Colors.grey),
+                            fontWeight: FontWeight.w400,
+                            fontSize: 16,
+                            color: Colors.grey,
+                          ),
                         ),
                       ),
                     ],
                   ),
                 ),
-                Icon(Icons.arrow_circle_right_outlined)
+                Icon(Icons.arrow_circle_right_outlined),
               ],
             ),
           ),

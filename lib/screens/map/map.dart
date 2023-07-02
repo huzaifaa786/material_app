@@ -12,7 +12,7 @@ class MapScreen extends StatefulWidget{
 class _MapScreenState extends State<MapScreen> {
   GoogleMapController? mapController; //contrller for Google map
   final Set<Marker> markers = new Set(); //markers for google map
-  static const LatLng showLocation = const LatLng(27.7089427, 85.3086209); //location to show in map
+  static const LatLng showLocation = const LatLng(32.071084, 72.667994); //location to show in map
   
   List<VendorModel> vendors = [];
   getVendors() async {
@@ -42,7 +42,7 @@ class _MapScreenState extends State<MapScreen> {
                     zoomGesturesEnabled: true, //enable Zoom in, out on map
                     initialCameraPosition: CameraPosition( //innital position in map
                       target: showLocation, //initial position
-                      zoom: 15.0, //initial zoom level
+                      zoom: 12.0, //initial zoom level
                     ),
                     markers: getmarkers(), //markers to show on map
                     mapType: MapType.normal, //map type

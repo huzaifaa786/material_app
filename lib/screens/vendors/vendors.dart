@@ -11,14 +11,14 @@ import 'package:material/static/material_card.dart';
 import 'package:material/values/colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class VendorScreen extends StatefulWidget {
+  const VendorScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _MyWidgetState();
+  State<VendorScreen> createState() => _VendorScreenState();
 }
 
-class _MyWidgetState extends State<HomeScreen> {
+class _VendorScreenState extends State<VendorScreen> {
   List<VendorModel> materials = [];
   getmaterials() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -40,49 +40,6 @@ class _MyWidgetState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: Drawer(
-        child: ListTileTheme(
-            child: ListView(
-          children: [
-            ListTile(
-                leading: Icon(
-                  Icons.trolley,
-                  color: mainColor,
-                ),
-                title: Text(
-                  "Orders",
-                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                       
-                        color: ListTileTheme.of(context).textColor,
-                      ),
-                ),
-           
-                onTap: () {
-                  Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => OrderHistoryScreen()));
-                 
-                },
-              ),
-            ListTile(
-                leading: Icon(
-                  Icons.map,
-                  color: mainColor,
-                ),
-                title: Text(
-                  "Vendors Map",
-                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                       
-                        color: ListTileTheme.of(context).textColor,
-                      ),
-                ),
-           
-                onTap: () {
-                 
-                },
-              ),
-          ],
-        )),
-      ),
       appBar: AppBar(
         title: Text('Building Material'),
         backgroundColor: mainColor,
@@ -115,7 +72,8 @@ class _MyWidgetState extends State<HomeScreen> {
                               shrinkWrap: true,
                               itemCount: materials.length,
                               itemBuilder: (BuildContext context, int index) {
-                                return VendorCard(
+                                return 
+                                VendorCard(
                                   title: materials[index].name,
                                   address: materials[index].address,
                                   ontap: () {
@@ -135,37 +93,6 @@ class _MyWidgetState extends State<HomeScreen> {
                 ],
               ),
             ),
-            Positioned(
-              bottom: 20,
-              child: SizedBox(
-                height: 60,
-                width: MediaQuery.of(context).size.width * 0.9,
-                child: ElevatedButton(
-                  child: Text(
-                    'Logout',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    backgroundColor: mainColor,
-                    textStyle: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold),
-                  ),
-                  onPressed: () async {
-                    LoadingHelper.show();
-                    await AuthApi.logout();
-                    Fluttertoast.showToast(msg: "Logout successfully.");
-                    Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(builder: (context) => LoginScreen()));
-                    LoadingHelper.dismiss();
-                  },
-                ),
-              ),
-            )
           ],
         ),
       )),

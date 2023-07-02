@@ -3,10 +3,14 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:material/api/auth.dart';
 import 'package:material/api/material.dart';
 import 'package:material/helpers/loading.dart';
+import 'package:material/model/category.dart';
 import 'package:material/model/vendor.dart';
 import 'package:material/screens/auth/login.dart';
+import 'package:material/screens/map/map.dart';
 import 'package:material/screens/order_history/order_history.dart';
 import 'package:material/screens/product/products.dart';
+import 'package:material/screens/vendors/vendors.dart';
+import 'package:material/static/category_card.dart';
 import 'package:material/static/material_card.dart';
 import 'package:material/values/colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -19,11 +23,11 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _MyWidgetState extends State<HomeScreen> {
-  List<VendorModel> materials = [];
+  List<MCategory> materials = [];
   getmaterials() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.remove('carts');
-    var mmaterials = await MaterialApi.getMaterial();
+    var mmaterials = await MaterialApi.getCategory();
     setState(() {
       materials = mmaterials;
     });
@@ -71,7 +75,12 @@ class _MyWidgetState extends State<HomeScreen> {
                       color: ListTileTheme.of(context).textColor,
                     ),
               ),
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context)
+                                        .push(MaterialPageRoute(
+                                            builder: (context) => MapScreen(
+                                                )));
+              },
             ),
           ],
         )),
@@ -131,15 +140,13 @@ class _MyWidgetState extends State<HomeScreen> {
                               shrinkWrap: true,
                               itemCount: materials.length,
                               itemBuilder: (BuildContext context, int index) {
-                                return VendorCard(
+                                return CategoryCard(
                                   title: materials[index].name,
-                                  address: materials[index].address,
+                                  image: materials[index].image,
                                   ontap: () {
                                     Navigator.of(context)
                                         .push(MaterialPageRoute(
-                                            builder: (context) => ProductScreen(
-                                                  id: materials[index].id,
-                                                  vendor: materials[index],
+                                            builder: (context) => VendorScreen(
                                                 )));
                                   },
                                 );
